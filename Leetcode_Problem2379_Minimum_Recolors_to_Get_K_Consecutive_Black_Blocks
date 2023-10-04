@@ -1,0 +1,59 @@
+int minimumRecolors(char * blocks, int k){
+    int min = INT_MAX , count , recolor;
+    for( int i = 0 ; i <= strlen(blocks)-k ; i++)
+    {
+        count = k;
+        recolor = 0;
+        for( int j = i ; j < strlen(blocks) ; j++)
+        {
+            if(blocks[j] == 'W')
+                recolor++;
+            if(!(--count))
+                break;
+        }
+        min = fmin(recolor,min);
+    }
+    return min;
+}
+
+
+
+--------------------------------------------------------------------------
+
+
+
+int minimumRecolors(char * blocks, int k){
+    int minCnt = k , len = strlen(blocks) , r = 0, l = 0, whiteCnt = 0;
+    while(r < len)
+	{
+        while((r - l) < k)
+            whiteCnt += (blocks[r++]=='W') ? 1 : 0;
+   
+        if(whiteCnt == 0)
+            return 0;
+        else if(whiteCnt < minCnt)
+            minCnt = whiteCnt;
+        whiteCnt -= (blocks[l++]=='W') ? 1 : 0;
+    }
+    return minCnt;
+}
+
+
+
+-----------------------------------------------------------------------------------
+
+
+
+int minimumRecolors(char * blocks, int k){
+    int start = 0; 
+    for( int i = 0 ; i < k ;i++)
+        start += (blocks[i]=='B') ? 1 : 0;
+    int temp = start; // window variable
+    for( int i = 0, j = k ; j < strlen(blocks) ; i++, j++)
+    {
+        temp -= (blocks[i]=='B') ? 1 : 0;
+        temp += (blocks[j]=='B') ? 1 : 0;
+        start = fmax(start,temp);
+    }   
+    return (k - start);               
+}
